@@ -1,49 +1,65 @@
 <template>
-  <aside class="w-64 bg-card border-r border-border h-screen flex flex-col">
-    <!-- Header Sidebar -->
-    <div class="h-16 flex items-center px-6 border-b border-border">
-      <h1 class="text-xl font-bold text-[#4AA465] flex items-center gap-2">
-        <span class="text-2xl">🕌</span> Muktamar App
-      </h1>
+  <aside
+    class="flex w-64 shrink-0 flex-col bg-gradient-to-b from-[#155431] to-[#0b3a1f] text-white"
+  >
+    <!-- Brand / Logo -->
+    <div class="flex items-center gap-3 px-5 py-5">
+      <div class="grid h-10 w-10 place-items-center rounded-xl bg-[#4AA465]/30 ring-1 ring-[#4AA465]/50">
+        <Leaf class="h-5 w-5 text-[#A1D6E2]" />
+      </div>
+      <div class="leading-tight">
+        <p class="text-sm font-bold">Pra Muktamar V</p>
+        <p class="text-[11px] text-white/70">Wahdah Islamiyah</p>
+      </div>
     </div>
 
-    <!-- Navigasi -->
-    <nav class="flex-1 px-4 py-6 space-y-2">
-      <SidebarLink 
-        v-for="item in menuItems" 
-        :key="item.name"
-        :item="item"
-        :is-active="currentRoute === item.route"
-      />
+    <!-- Menu -->
+    <nav class="flex-1 space-y-1 overflow-y-auto px-3 py-2">
+      <router-link
+        v-for="item in menu"
+        :key="item.label"
+        :to="item.to"
+        class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors"
+        :class="
+          isActive(item.to)
+            ? 'bg-[#4AA465] text-white shadow-sm'
+            : 'text-white/75 hover:bg-white/10 hover:text-white'
+        "
+      >
+        <component :is="item.icon" class="h-[18px] w-[18px] shrink-0" />
+        <span>{{ item.label }}</span>
+      </router-link>
     </nav>
 
-    <!-- Footer Sidebar (User Profile) -->
-    <div class="p-4 border-t border-border">
-      <div class="flex items-center gap-3">
-        <div class="h-9 w-9 rounded-full bg-[#A1D6E2] flex items-center justify-center text-[#0F172A] font-bold">
-          AD
-        </div>
-        <div>
-          <p class="text-sm font-semibold text-foreground">Admin Dashboard</p>
-          <p class="text-xs text-muted-foreground">admin@muktamar.id</p>
-        </div>
-      </div>
+    <!-- Footer -->
+    <div class="border-t border-white/10 px-4 py-3 text-[11px] text-white/50">
+      v1.0 · Terpantau, Tertib, Tercatat
     </div>
   </aside>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import SidebarLink from './SidebarLink.vue'
-import { LayoutDashboard, Users, Calendar, FileText } from 'lucide-vue-next'
+import { useRoute } from 'vue-router'
+import {
+  Home, Users, CalendarDays, Video, ClipboardList,
+  Bell, Megaphone, FileText, Settings, ScrollText, LogOut, Leaf,
+} from 'lucide-vue-next'
 
-// Asumsi Anda menggunakan Vue Router
-const currentRoute = ref('/dashboard')
+const route = useRoute()
+const isActive = (to) => route.path === to
 
-const menuItems = [
-  { name: 'Dashboard', route: '/dashboard', icon: LayoutDashboard },
-  { name: 'Data Peserta', route: '/peserta', icon: Users },
-  { name: 'Agenda Kegiatan', route: '/agenda', icon: Calendar },
-  { name: 'Laporan & Unduhan', route: '/laporan', icon: FileText },
+const menu = [
+  { label: 'Dashboard',            to: '/dashboard',     icon: Home },
+  { label: 'Peserta',              to: '/peserta',       icon: Users },
+  { label: 'Agenda',               to: '/agenda',        icon: CalendarDays },
+  { label: 'Zoom 1 (Laki-laki)',   to: '/zoom/1',        icon: Video },
+  { label: 'Zoom 2 (Perempuan)',   to: '/zoom/2',        icon: Video },
+  { label: 'Attendance',           to: '/attendance',    icon: ClipboardList },
+  { label: 'Reminder',             to: '/reminder',      icon: Bell },
+  { label: 'Pengingat (Reminder)', to: '/pengingat',     icon: Megaphone },
+  { label: 'Laporan',              to: '/laporan',       icon: FileText },
+  { label: 'Pengaturan',           to: '/pengaturan',    icon: Settings },
+  { label: 'Log Aktivitas',        to: '/log-aktivitas', icon: ScrollText },
+  { label: 'Keluar',               to: '/logout',        icon: LogOut },
 ]
 </script>
