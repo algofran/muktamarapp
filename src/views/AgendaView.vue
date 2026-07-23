@@ -5,7 +5,7 @@
         <h1 class="text-xl font-bold tracking-tight text-[#0F172A]">Agenda & Jadwal Muktamar</h1>
         <p class="text-sm text-slate-500">Susunan acara dan sidang Pra Muktamar V Wahdah Islamiyah</p>
       </div>
-      <button class="inline-flex items-center gap-1.5 rounded-lg bg-[#4AA465] px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-[#3d8b54]">
+      <button class="inline-flex items-center gap-1.5 rounded-lg bg-[#0096A6] px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-[#007D8A]">
         <Plus class="h-4 w-4" /> Tambah Sesi
       </button>
     </div>

@@ -15,7 +15,7 @@
         <button @click="loadLivePeserta" class="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">
           <RefreshCw class="h-3.5 w-3.5" :class="{ 'animate-spin': loading }" /> Refresh API
         </button>
-        <button class="inline-flex items-center gap-1.5 rounded-lg bg-[#4AA465] px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-[#3d8b54] transition-colors">
+        <button class="inline-flex items-center gap-1.5 rounded-lg bg-[#0096A6] px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-[#007D8A] transition-colors">
           <UserPlus class="h-4 w-4" /> Tambah Peserta
         </button>
         <button class="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors">
@@ -40,7 +40,7 @@
           <UserCheck class="h-4 w-4 text-[#3B82F6]" />
         </div>
         <p class="mt-2 text-2xl font-bold text-[#3B82F6]">1,580</p>
-        <span class="text-[11px] text-[#4AA465]">856 Sedang Join</span>
+        <span class="text-[11px] text-[#0096A6]">856 Sedang Join</span>
       </div>
       <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
         <div class="flex items-center justify-between">
@@ -48,14 +48,14 @@
           <Heart class="h-4 w-4 text-[#EC4899]" />
         </div>
         <p class="mt-2 text-2xl font-bold text-[#EC4899]">1,370</p>
-        <span class="text-[11px] text-[#4AA465]">712 Sedang Join</span>
+        <span class="text-[11px] text-[#0096A6]">712 Sedang Join</span>
       </div>
       <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
         <div class="flex items-center justify-between">
           <span class="text-xs font-semibold text-slate-500">Status Server API</span>
-          <CheckCircle2 class="h-4 w-4 text-[#4AA465]" />
+          <CheckCircle2 class="h-4 w-4 text-[#0096A6]" />
         </div>
-        <p class="mt-2 text-2xl font-bold text-[#4AA465]">200 OK</p>
+        <p class="mt-2 text-2xl font-bold text-[#0096A6]">200 OK</p>
         <span class="text-[11px] text-slate-400">https://muktamar.fruwit.com</span>
       </div>
     </div>
@@ -69,7 +69,7 @@
             v-model="searchQuery"
             type="text"
             placeholder="Cari nama, DPW, DPD, atau No Reg..."
-            class="w-full rounded-lg border border-slate-200 bg-slate-50 pl-9 pr-4 py-2 text-xs text-[#0F172A] outline-none focus:border-[#4AA465] focus:bg-white transition-all"
+            class="w-full rounded-lg border border-slate-200 bg-slate-50 pl-9 pr-4 py-2 text-xs text-[#0F172A] outline-none focus:border-[#0096A6] focus:bg-white transition-all"
           />
         </div>
         <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
@@ -89,7 +89,7 @@
       <!-- Table Peserta -->
       <div class="overflow-x-auto">
         <div v-if="loading" class="py-8 text-center text-xs text-slate-400 flex items-center justify-center gap-2">
-          <RefreshCw class="h-4 w-4 animate-spin text-[#4AA465]" /> Memuat data dari Muktamar API...
+          <RefreshCw class="h-4 w-4 animate-spin text-[#0096A6]" /> Memuat data dari Muktamar API...
         </div>
         <table v-else class="w-full text-left text-xs">
           <thead class="border-b border-slate-200 bg-slate-50 text-slate-500 uppercase text-[10px] font-semibold">
@@ -106,7 +106,7 @@
             <tr v-for="peserta in filteredPeserta" :key="peserta.id" class="hover:bg-slate-50/70 transition-colors">
               <td class="px-4 py-3 font-medium text-[#0F172A]">
                 <div class="flex items-center gap-2.5">
-                  <div class="h-8 w-8 rounded-full bg-[#4AA465]/10 text-[#4AA465] flex items-center justify-center font-bold text-xs">
+                  <div class="h-8 w-8 rounded-full bg-[#0096A6]/10 text-[#0096A6] flex items-center justify-center font-bold text-xs">
                     {{ peserta.initials }}
                   </div>
                   <div>
@@ -132,7 +132,7 @@
                 </span>
               </td>
               <td class="px-4 py-3 text-right">
-                <button class="text-xs font-semibold text-[#4AA465] hover:underline">Detail</button>
+                <button class="text-xs font-semibold text-[#0096A6] hover:underline">Detail</button>
               </td>
             </tr>
           </tbody>

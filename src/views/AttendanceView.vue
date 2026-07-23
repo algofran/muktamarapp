@@ -5,7 +5,7 @@
         <h1 class="text-xl font-bold tracking-tight text-[#0F172A]">Presensi & Kehadiran</h1>
         <p class="text-sm text-slate-500">Rekapitulasi absensi kehadiran peserta Muktamar</p>
       </div>
-      <button class="inline-flex items-center gap-1.5 rounded-lg bg-[#4AA465] px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-[#3d8b54]">
+      <button class="inline-flex items-center gap-1.5 rounded-lg bg-[#0096A6] px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-[#007D8A]">
         <Download class="h-4 w-4" /> Download Rekap Absensi
       </button>
     </div>
@@ -14,7 +14,7 @@
     <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
       <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
         <h3 class="text-xs font-semibold text-slate-500">Hadir (Checked-In)</h3>
-        <p class="mt-2 text-3xl font-bold text-[#4AA465]">1,568</p>
+        <p class="mt-2 text-3xl font-bold text-[#0096A6]">1,568</p>
         <span class="text-[11px] text-slate-400">84.0% dari total peserta</span>
       </div>
       <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">

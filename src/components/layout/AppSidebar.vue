@@ -1,8 +1,8 @@
 <template>
-  <aside class="flex w-64 shrink-0 flex-col bg-gradient-to-b from-[#155431] to-[#0b3a1f] text-white">
+  <aside class="flex w-64 shrink-0 flex-col bg-gradient-to-b from-[#005F6A] to-[#002D33] text-white">
     <div class="flex items-center gap-3 px-5 py-5">
-      <div class="grid h-10 w-10 place-items-center rounded-xl bg-[#4AA465]/30 ring-1 ring-[#4AA465]/50">
-        <Leaf class="h-5 w-5 text-[#A1D6E2]" />
+      <div class="grid h-10 w-10 place-items-center rounded-xl bg-[#ED1C24]/20 ring-1 ring-[#ED1C24]/50">
+        <Leaf class="h-5 w-5 text-[#ED1C24]" />
       </div>
       <div class="leading-tight">
         <p class="text-sm font-bold">Pra Muktamar V</p>
@@ -15,7 +15,7 @@
         v-for="item in menu" :key="item.label" :to="item.to"
         class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors"
         :class="isActive(item.to)
-          ? 'bg-[#4AA465] text-white shadow-sm'
+          ? 'bg-[#0096A6] text-white shadow-sm'
           : 'text-white/75 hover:bg-white/10 hover:text-white'">
         <component :is="item.icon" class="h-[18px] w-[18px] shrink-0" />
         <span>{{ item.label }}</span>

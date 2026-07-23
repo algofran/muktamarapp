@@ -32,7 +32,7 @@ import { computed } from 'vue'
 import { User, UsersRound } from 'lucide-vue-next'
 
 const props = defineProps({
-  variant: { type: String, default: 'green' }, // 'blue' | 'pink' | 'green'
+  variant: { type: String, default: 'teal' }, // 'blue' | 'pink' | 'teal' | 'red'
   title: String,
   total: Number,
   join: Number,
@@ -40,17 +40,19 @@ const props = defineProps({
   leave: Number,
 })
 
-const icon = computed(() => (props.variant === 'green' ? UsersRound : User))
+const icon = computed(() => (props.variant === 'teal' || props.variant === 'green' ? UsersRound : User))
 
 const palette = {
-  blue:  { box: 'bg-[#A1D6E2]/35 border-[#A1D6E2]', text: 'text-[#3B82F6]', border: 'border-[#A1D6E2]/60' },
+  blue:  { box: 'bg-[#0096A6]/10 border-[#0096A6]/30', text: 'text-[#0096A6]', border: 'border-[#0096A6]/25' },
   pink:  { box: 'bg-[#EC4899]/10 border-[#EC4899]/30', text: 'text-[#EC4899]', border: 'border-[#EC4899]/25' },
-  green: { box: 'bg-[#4AA465]/10 border-[#4AA465]/30', text: 'text-[#4AA465]', border: 'border-[#4AA465]/25' },
+  teal:  { box: 'bg-[#0096A6]/15 border-[#0096A6]/40', text: 'text-[#0096A6]', border: 'border-[#0096A6]/30' },
+  red:   { box: 'bg-[#ED1C24]/10 border-[#ED1C24]/30', text: 'text-[#ED1C24]', border: 'border-[#ED1C24]/25' },
+  green: { box: 'bg-[#0096A6]/15 border-[#0096A6]/40', text: 'text-[#0096A6]', border: 'border-[#0096A6]/30' },
 }
 
-const containerClass = computed(() => palette[props.variant].box)
-const accentText     = computed(() => palette[props.variant].text)
-const borderClass    = computed(() => palette[props.variant].border)
+const containerClass = computed(() => (palette[props.variant] || palette.teal).box)
+const accentText     = computed(() => (palette[props.variant] || palette.teal).text)
+const borderClass    = computed(() => (palette[props.variant] || palette.teal).border)
 
 const subs = computed(() => [
   { label: 'Join',        value: props.join },

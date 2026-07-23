@@ -2,7 +2,7 @@
   <div>
       <!-- Banner modul (seperti gambar) -->
       <div class="mb-5 flex flex-col items-center text-center">
-        <span class="rounded-full bg-[#4AA465] px-4 py-1 text-xs font-semibold text-white shadow-sm">
+        <span class="rounded-full bg-[#0096A6] px-4 py-1 text-xs font-semibold text-white shadow-sm">
           6. DASHBOARD MONITORING PANITIA
         </span>
         <p class="mt-2 text-sm text-[#0F172A]/70">
@@ -17,12 +17,12 @@
           <h2 class="text-lg font-bold text-[#0F172A]">Dashboard Monitoring Zoom</h2>
           <div class="flex items-center gap-3 text-xs text-slate-500">
             <span class="inline-flex items-center gap-1.5">
-              <span class="h-2 w-2 rounded-full bg-[#4AA465]" /> Online
+              <span class="h-2 w-2 rounded-full bg-[#0096A6]" /> Online
             </span>
             <span>Update: {{ lastUpdated }}</span>
             <button
               @click="refresh"
-              class="inline-flex items-center gap-1 rounded-md bg-[#4AA465] px-3 py-1.5 text-xs font-semibold text-white hover:bg-[#3d8b54]"
+              class="inline-flex items-center gap-1 rounded-md bg-[#0096A6] px-3 py-1.5 text-xs font-semibold text-white hover:bg-[#007D8A]"
             >
               <RefreshCw class="h-3.5 w-3.5" :class="{ 'animate-spin': loading }" /> Refresh
             </button>
@@ -33,7 +33,7 @@
         <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
           <ZoomStatCard variant="blue"  title="Zoom 1 (Laki-laki)" :total="1024" :join="856"  :active="124" :leave="44" />
           <ZoomStatCard variant="pink"  title="Zoom 2 (Perempuan)" :total="843"  :join="712"  :active="96"  :leave="35" />
-          <ZoomStatCard variant="green" title="Total Keseluruhan"  :total="1867" :join="1568" :active="220" :leave="79" />
+          <ZoomStatCard variant="teal" title="Total Keseluruhan"  :total="1867" :join="1568" :active="220" :leave="79" />
         </div>
 
         <!-- Tabel + Grafik -->

@@ -18,10 +18,10 @@
         <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Kapasitas Room</h3>
         <div class="mt-3 flex items-baseline justify-between">
           <span class="text-3xl font-bold text-[#0F172A]">{{ currentStats.join }} <span class="text-sm font-normal text-slate-400">/ {{ currentStats.total }} Peserta</span></span>
-          <span class="text-sm font-bold text-[#4AA465]">{{ Math.round((currentStats.join / currentStats.total) * 100) }}%</span>
+          <span class="text-sm font-bold text-[#0096A6]">{{ Math.round((currentStats.join / currentStats.total) * 100) }}%</span>
         </div>
         <div class="mt-3 h-2.5 w-full rounded-full bg-slate-100 overflow-hidden">
-          <div class="h-full bg-[#4AA465] rounded-full transition-all duration-500" :style="{ width: `${(currentStats.join / currentStats.total) * 100}%` }" />
+          <div class="h-full bg-[#0096A6] rounded-full transition-all duration-500" :style="{ width: `${(currentStats.join / currentStats.total) * 100}%` }" />
         </div>
       </div>
 

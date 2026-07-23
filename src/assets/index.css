@@ -5,7 +5,7 @@
 @layer base {
   :root {
     /* Netral (Latar & Teks) */
-    --background: 210 40% 98%; /* #F8FAFC */
+    --background: 170 30% 98%; /* #F4FAF9 */
     --foreground: 222 47% 11%; /* #0F172A */
 
     /* Card */
@@ -16,30 +16,30 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
 
-    /* Utama (Dominan): Hijau #4AA465 */
-    --primary: 140 40% 46%; /* #4AA465 */
-    --primary-foreground: 0 0% 100%; /* Putih untuk teks di atas hijau */
+    /* Utama (Dominan): Teal Cyan #0096A6 */
+    --primary: 186 100% 33%; /* #0096A6 */
+    --primary-foreground: 0 0% 100%; /* Putih */
 
-    /* Sekunder: Biru Muda #A1D6E2 */
-    --secondary: 195 45% 74%; /* #A1D6E2 */
-    --secondary-foreground: 222 47% 11%; /* #0F172A */
+    /* Sekunder: Aqua Soft #CCF2F4 */
+    --secondary: 184 60% 88%; /* #CCF2F4 */
+    --secondary-foreground: 186 100% 20%;
 
     /* Muted (untuk area yang kurang menonjol) */
-    --muted: 210 40% 96.1%;
+    --muted: 180 20% 96%;
     --muted-foreground: 215 16% 47%;
 
-    /* Aksen: Kuning #F9CA33 (Warning/Rating) */
-    --accent: 45 93% 59%; /* #F9CA33 */
-    --accent-foreground: 222 47% 11%;
+    /* Aksen: Red Vibrant #ED1C24 (Logo Accent) */
+    --accent: 358 85% 52%; /* #ED1C24 */
+    --accent-foreground: 0 0% 100%;
 
-    /* Destructive: Merah #DE3B32 (Error/Hapus) */
-    --destructive: 3 72% 53%; /* #DE3B32 */
+    /* Destructive: Merah #ED1C24 */
+    --destructive: 358 85% 52%; /* #ED1C24 */
     --destructive-foreground: 0 0% 100%;
 
     /* Border & Input */
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 140 40% 46%; /* Ring warna hijau saat focus */
+    --border: 180 20% 90%;
+    --input: 180 20% 90%;
+    --ring: 186 100% 33%; /* Ring warna teal saat focus */
 
     --radius: 0.5rem;
   }
