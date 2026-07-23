@@ -60,11 +60,21 @@ import AppSidebar from '@/components/layout/AppSidebar.vue'
 import ZoomStatCard from '@/components/dashboard/ZoomStatCard.vue'
 import ActivityTable from '@/components/dashboard/ActivityTable.vue'
 import RealtimeChart from '@/components/dashboard/RealtimeChart.vue'
+import { api } from '@/lib/dashboardApi.js'
+import { muktamarApi } from '@/lib/muktamarApi.js'
+import { useDashboardSocket } from '@/lib/socket.js'
 
 const loading = ref(false)
 const lastUpdated = ref(new Date().toLocaleTimeString('id-ID'))
+const connectionStatus = ref('offline')
 
-// --- Data dummy (ganti dengan fetch ke /api/dashboard/* atau WebSocket) ---
+// State untuk data real-time
+const stats = ref({
+  zoom1: { total: 0, join: 0, active: 0, leave: 0 },
+  zoom2: { total: 0, join: 0, active: 0, leave: 0 },
+  total: { total: 0, join: 0, active: 0, leave: 0 },
+})
+
 const activities = ref([
   { nama: 'DPP.Pusdatin - Sekretaris - Muhammad Adhan', zoom: 'Zoom 1', status: 'Join',        waktu: '09:02:15' },
   { nama: 'DPW.Sultra - Ketua - Muh. Ikhwan Kapai',     zoom: 'Zoom 1', status: 'Join',        waktu: '09:02:47' },
@@ -78,23 +88,114 @@ const chartSeries = ref([
   { name: 'Zoom 2 (Perempuan)', data: [180, 360, 520, 640, 760, 850] },
 ])
 
-// --- Auto-refresh 30s (FR-DASH-2) + simulasi data real-time ---
-let timer = null
+// Setup WebSocket dengan handlers
+useDashboardSocket({
+  'dashboard:stats': (data) => {
+    if (data.zoom1) stats.value.zoom1 = data.zoom1
+    if (data.zoom2) stats.value.zoom2 = data.zoom2
+    if (data.total) stats.value.total = data.total
+    lastUpdated.value = new Date().toLocaleTimeString('id-ID')
+  },
+  'dashboard:activity': (data) => {
+    // Prepend aktivitas baru ke tabel
+    activities.value.unshift({
+      nama: data.nama || 'Peserta Baru',
+      zoom: data.room === 1 ? 'Zoom 1' : 'Zoom 2',
+      status: data.status || 'Join',
+      waktu: new Date(data.timestamp).toLocaleTimeString('id-ID'),
+    })
+    // Batasi maksimal 50 baris
+    if (activities.value.length > 50) {
+      activities.value = activities.value.slice(0, 50)
+    }
+  },
+  'dashboard:graph': (data) => {
+    // Update grafik dengan titik baru
+    const seriesIndex = data.room === 1 ? 0 : 1
+    chartSeries.value[seriesIndex].data.push(data.count)
+    chartSeries.value[seriesIndex].data.shift() // Geser keluar titik lama
+  },
+  'system:sync': (data) => {
+    connectionStatus.value = data.status
+  },
+  'dashboard:alert': (data) => {
+    // Tampilkan alert/toast (implementasi sesuai kebutuhan)
+    console.warn('Dashboard Alert:', data.type, data.message)
+  },
+})
+
+// Fungsi refresh manual
 const refresh = async () => {
   loading.value = true
-  // TODO: await fetch('/api/dashboard/overview') & '/activity' & '/graph'
-  lastUpdated.value = new Date().toLocaleTimeString('id-ID')
-  setTimeout(() => (loading.value = false), 400)
+  try {
+    // Fetch overview dari backend custom
+    const overview = await api.overview()
+    if (overview) {
+      stats.value.zoom1 = overview.zoom1 || stats.value.zoom1
+      stats.value.zoom2 = overview.zoom2 || stats.value.zoom2
+      stats.value.total = overview.total || stats.value.total
+    }
+    
+    // Fetch aktivitas terbaru
+    const activityRes = await api.activity({ limit: 50 })
+    if (activityRes?.items) {
+      activities.value = activityRes.items.map(item => ({
+        nama: item.nama || `${item.organization} - ${item.role}`,
+        zoom: item.room === 1 ? 'Zoom 1' : 'Zoom 2',
+        status: translateStatus(item.status),
+        waktu: new Date(item.timestamp).toLocaleTimeString('id-ID'),
+      }))
+    }
+    
+    // Fetch data grafik
+    const graphRes = await api.graph()
+    if (graphRes?.series) {
+      chartSeries.value = graphRes.series
+    }
+    
+    lastUpdated.value = new Date().toLocaleTimeString('id-ID')
+  } catch (err) {
+    console.error('Failed to refresh dashboard:', err)
+    // Fallback: coba health check API Muktamar
+    try {
+      await muktamarApi.health()
+      connectionStatus.value = 'online'
+    } catch {
+      connectionStatus.value = 'offline'
+    }
+  } finally {
+    loading.value = false
+  }
 }
+
+// Helper untuk translate status
+const translateStatus = (status) => {
+  const map = {
+    join: 'Join',
+    currently_join: 'Sedang Join',
+    leave: 'Leave',
+  }
+  return map[status] || status
+}
+
+// Auto-refresh interval (default 30s sesuai FR-DASH-2)
+let timer = null
 onMounted(() => {
+  refresh() // Initial fetch
+  
   timer = setInterval(() => {
     lastUpdated.value = new Date().toLocaleTimeString('id-ID')
-    // simulasi: geser series (ganti dengan event WebSocket `dashboard:graph`)
-    chartSeries.value = chartSeries.value.map((s) => ({
-      ...s,
-      data: [...s.data.slice(1), Math.max(0, s.data.at(-1) + Math.round((Math.random() - 0.4) * 80))],
-    }))
+    // Simulasi update grafik jika tidak ada WebSocket
+    if (connectionStatus.value !== 'online') {
+      chartSeries.value = chartSeries.value.map((s) => ({
+        ...s,
+        data: [...s.data.slice(1), Math.max(0, s.data.at(-1) + Math.round((Math.random() - 0.4) * 80))],
+      }))
+    }
   }, 30000)
 })
-onUnmounted(() => clearInterval(timer))
+
+onUnmounted(() => {
+  if (timer) clearInterval(timer)
+})
 </script>
