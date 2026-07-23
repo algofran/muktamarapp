@@ -55,7 +55,7 @@ const revenueOptions = computed<ChartOptions<'line'>>(() => ({
     tooltip: {
       callbacks: {
         label: (context) => {
-          const value = context.parsed.y
+          const value = context.parsed.y ?? 0
           return `Revenue: $${(value / 1000).toFixed(0)}k`
         }
       }
