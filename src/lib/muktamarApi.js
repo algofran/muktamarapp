@@ -1,6 +1,5 @@
-// src/lib/muktamarApi.js - Client API Public Muktamar (data master, read-only)
-const BASE = import.meta.env.VITE_MUKTAMAR_API_URL
-const TOKEN = import.meta.env.VITE_MUKTAMAR_API_TOKEN
+const BASE = import.meta.env.VITE_MUKTAMAR_API_URL || 'https://muktamar.fruwit.com'
+const TOKEN = import.meta.env.VITE_MUKTAMAR_API_TOKEN || 'mkt_7F13d0U9GqGdzJVca0XonFKd8EXEnTNelEMhP3GhflM'
 const USE_PROXY = import.meta.env.VITE_USE_MUKTAMAR_PROXY === 'true'
 
 /**

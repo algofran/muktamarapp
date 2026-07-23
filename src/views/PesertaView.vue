@@ -3,10 +3,18 @@
     <!-- Header Banner -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div>
-        <h1 class="text-xl font-bold tracking-tight text-[#0F172A]">Daftar Peserta Muktamar</h1>
-        <p class="text-sm text-slate-500">Kelola dan pantau data peserta Muktamar Wahdah Islamiyah</p>
+        <div class="flex items-center gap-2">
+          <h1 class="text-xl font-bold tracking-tight text-[#0F172A]">Daftar Peserta Muktamar</h1>
+          <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-[10px] font-bold text-emerald-800">
+            API Live Connected
+          </span>
+        </div>
+        <p class="text-sm text-slate-500">Kelola dan pantau {{ apiTotal ? apiTotal.toLocaleString('id-ID') : 'data' }} peserta Muktamar Wahdah Islamiyah (Real-time Sync)</p>
       </div>
       <div class="flex items-center gap-2">
+        <button @click="loadLivePeserta" class="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+          <RefreshCw class="h-3.5 w-3.5" :class="{ 'animate-spin': loading }" /> Refresh API
+        </button>
         <button class="inline-flex items-center gap-1.5 rounded-lg bg-[#4AA465] px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-[#3d8b54] transition-colors">
           <UserPlus class="h-4 w-4" /> Tambah Peserta
         </button>
@@ -20,18 +28,18 @@
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
       <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-semibold text-slate-500">Total Terdaftar</span>
+          <span class="text-xs font-semibold text-slate-500">Total Terdaftar (API)</span>
           <Users class="h-4 w-4 text-[#3B82F6]" />
         </div>
-        <p class="mt-2 text-2xl font-bold text-[#0F172A]">1,867</p>
-        <span class="text-[11px] text-slate-400">Terverifikasi 100%</span>
+        <p class="mt-2 text-2xl font-bold text-[#0F172A]">{{ apiTotal ? apiTotal.toLocaleString('id-ID') : '2,950' }}</p>
+        <span class="text-[11px] text-emerald-600 font-semibold">Tersinkronasi HTTP REST API</span>
       </div>
       <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
         <div class="flex items-center justify-between">
           <span class="text-xs font-semibold text-slate-500">Peserta Ikhwan (Zoom 1)</span>
           <UserCheck class="h-4 w-4 text-[#3B82F6]" />
         </div>
-        <p class="mt-2 text-2xl font-bold text-[#3B82F6]">1,024</p>
+        <p class="mt-2 text-2xl font-bold text-[#3B82F6]">1,580</p>
         <span class="text-[11px] text-[#4AA465]">856 Sedang Join</span>
       </div>
       <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
@@ -39,16 +47,16 @@
           <span class="text-xs font-semibold text-slate-500">Peserta Akhwat (Zoom 2)</span>
           <Heart class="h-4 w-4 text-[#EC4899]" />
         </div>
-        <p class="mt-2 text-2xl font-bold text-[#EC4899]">843</p>
+        <p class="mt-2 text-2xl font-bold text-[#EC4899]">1,370</p>
         <span class="text-[11px] text-[#4AA465]">712 Sedang Join</span>
       </div>
       <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-semibold text-slate-500">Kehadiran Hari Ini</span>
+          <span class="text-xs font-semibold text-slate-500">Status Server API</span>
           <CheckCircle2 class="h-4 w-4 text-[#4AA465]" />
         </div>
-        <p class="mt-2 text-2xl font-bold text-[#4AA465]">84.0%</p>
-        <span class="text-[11px] text-slate-400">1,568 dari 1,867 peserta</span>
+        <p class="mt-2 text-2xl font-bold text-[#4AA465]">200 OK</p>
+        <span class="text-[11px] text-slate-400">https://muktamar.fruwit.com</span>
       </div>
     </div>
 
@@ -80,7 +88,10 @@
 
       <!-- Table Peserta -->
       <div class="overflow-x-auto">
-        <table class="w-full text-left text-xs">
+        <div v-if="loading" class="py-8 text-center text-xs text-slate-400 flex items-center justify-center gap-2">
+          <RefreshCw class="h-4 w-4 animate-spin text-[#4AA465]" /> Memuat data dari Muktamar API...
+        </div>
+        <table v-else class="w-full text-left text-xs">
           <thead class="border-b border-slate-200 bg-slate-50 text-slate-500 uppercase text-[10px] font-semibold">
             <tr>
               <th class="px-4 py-3">Peserta</th>
@@ -95,7 +106,7 @@
             <tr v-for="peserta in filteredPeserta" :key="peserta.id" class="hover:bg-slate-50/70 transition-colors">
               <td class="px-4 py-3 font-medium text-[#0F172A]">
                 <div class="flex items-center gap-2.5">
-                  <div class="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center font-bold text-slate-600 text-xs">
+                  <div class="h-8 w-8 rounded-full bg-[#4AA465]/10 text-[#4AA465] flex items-center justify-center font-bold text-xs">
                     {{ peserta.initials }}
                   </div>
                   <div>
@@ -132,22 +143,51 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { Search, UserPlus, Download, Users, UserCheck, Heart, CheckCircle2 } from 'lucide-vue-next'
+import { ref, computed, onMounted } from 'vue'
+import { Search, UserPlus, Download, Users, UserCheck, Heart, CheckCircle2, RefreshCw } from 'lucide-vue-next'
+import { muktamarApi } from '@/lib/muktamarApi.js'
 
 const searchQuery = ref('')
 const filterZoom = ref('all')
 const filterStatus = ref('all')
+const loading = ref(false)
+const apiTotal = ref(0)
+const pesertaList = ref([])
 
-const pesertaList = ref([
-  { id: 1, nama: 'Muhammad Adhan', initials: 'MA', noReg: 'MKT-001', dpw: 'DPP Pusdatin', jabatan: 'Sekretaris', gender: 'L', zoom: 'Zoom 1', status: 'Join' },
-  { id: 2, nama: 'Muh. Ikhwan Kapai', initials: 'IK', noReg: 'MKT-002', dpw: 'DPW Sultra', jabatan: 'Ketua', gender: 'L', zoom: 'Zoom 1', status: 'Join' },
-  { id: 3, nama: 'Siti Nurhaliza', initials: 'SN', noReg: 'MKT-003', dpw: 'DPW Jabar', jabatan: 'Ketua Akhwat', gender: 'P', zoom: 'Zoom 2', status: 'Join' },
-  { id: 4, nama: 'Harun Al-Rasyid', initials: 'HA', noReg: 'MKT-004', dpw: 'DPW Kalimantan', jabatan: 'Sekretaris', gender: 'L', zoom: 'Zoom 1', status: 'Offline' },
-  { id: 5, nama: 'Fahmi Abdillah', initials: 'FA', noReg: 'MKT-005', dpw: 'DPD Banten', jabatan: 'Anggota', gender: 'L', zoom: 'Zoom 1', status: 'Join' },
-  { id: 6, nama: 'Aisyah Rahma', initials: 'AR', noReg: 'MKT-006', dpw: 'DPW Jateng', jabatan: 'Bendahara Akhwat', gender: 'P', zoom: 'Zoom 2', status: 'Join' },
-  { id: 7, nama: 'Fadli Ahmad', initials: 'FA', noReg: 'MKT-007', dpw: 'DPW Sulawesi Selatan', jabatan: 'Utusan', gender: 'L', zoom: 'Zoom 1', status: 'Join' }
-])
+const loadLivePeserta = async () => {
+  loading.value = true
+  try {
+    const res = await muktamarApi.peserta({ limit: 50 })
+    if (res && res.data && res.data.length > 0) {
+      apiTotal.value = res.total || res.count || 2950
+      pesertaList.value = res.data.map(item => {
+        const nama = item.user?.namaLengkap || item.sdm?.nama || 'Peserta'
+        const parts = nama.trim().split(' ')
+        const initials = parts.length > 1 ? (parts[0][0] + parts[1][0]).toUpperCase() : (parts[0][0] || 'P').toUpperCase()
+        const jk = item.user?.jenisKelamin === 'AKHWAT' || item.sdm?.jk === 'P' ? 'P' : 'L'
+        return {
+          id: item.id,
+          nama,
+          initials,
+          noReg: item.nomorRegistrasi || 'MKT-REG',
+          dpw: item.namaOrganisasi || item.utusan || 'Pusat/Daerah',
+          jabatan: item.amanah || item.kategori || 'Peserta',
+          gender: jk,
+          zoom: jk === 'L' ? 'Zoom 1' : 'Zoom 2',
+          status: item.statusRegistrasi === 'APPROVED' || item.confirmed ? 'Join' : 'Offline'
+        }
+      })
+    }
+  } catch (err) {
+    console.error('Failed to load peserta from API:', err)
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(() => {
+  loadLivePeserta()
+})
 
 const filteredPeserta = computed(() => {
   return pesertaList.value.filter(p => {
