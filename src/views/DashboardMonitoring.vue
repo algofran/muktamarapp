@@ -1,8 +1,5 @@
 <template>
-  <div class="flex min-h-screen bg-[#F8FAFC] text-[#0F172A]">
-    <AppSidebar />
-
-    <main class="flex-1 overflow-y-auto p-6">
+  <div>
       <!-- Banner modul (seperti gambar) -->
       <div class="mb-5 flex flex-col items-center text-center">
         <span class="rounded-full bg-[#4AA465] px-4 py-1 text-xs font-semibold text-white shadow-sm">
@@ -49,7 +46,6 @@
           </div>
         </div>
       </section>
-    </main>
   </div>
 </template>
 
